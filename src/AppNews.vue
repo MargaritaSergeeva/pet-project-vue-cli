@@ -1,10 +1,12 @@
 <template>
   <div class="card">
     <h3>{{ title }}</h3>
-    <button class="btn" @click="open">Открыть</button>
-    <button v-if="isRead" class="btn danger" @click="unread">
+    <app-button @action="open">
+      {{ isNewsOpen ? "Закрыть" : "Открыть" }}
+    </app-button>
+    <app-button v-if="isRead" color="danger" @action="unread">
       Отметить непрочитанной
-    </button>
+    </app-button>
     <div v-if="isNewsOpen">
       <p>
         Lorem ipsum dolor sit amet, consectetur adipisicing elit. Animi dolor
@@ -12,14 +14,19 @@
         magna natus quasi tenetur. Alias necessitatibus quisquam reprehenderit
         venial.
       </p>
-      <button v-if="!isRead" class="btn primary" @click="read">
+      <app-button v-if="!isRead" color="primary" @action="read">
         Прочитать новость
-      </button>
+      </app-button>
     </div>
+
+    <app-news-list></app-news-list>
   </div>
 </template>
 
 <script>
+import AppButton from "../AppButton";
+import AppNewsList from "@/AppNewsList";
+
 export default {
   props: {
     title: {
@@ -75,6 +82,10 @@ export default {
       this.isNewsOpen = true;
       this.$emit("unread-news", this.id);
     },
+  },
+  components: {
+    AppButton,
+    AppNewsList
   },
 };
 </script>
